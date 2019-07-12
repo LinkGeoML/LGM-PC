@@ -129,7 +129,3 @@ def get_classes_in_street_radius_cnt(poi_gdf, street_gdf, nlabels, label_map, ge
         for k, v in class_cnt.items():
             X[poi.Index][k] = v
     return X
-
-
-# TODO all the above feature functions will match a train poi with itself
-# TODO 'get_classes_in_street_radius_bln' and 'get_classes_in_street_radius_bln' have to use index
