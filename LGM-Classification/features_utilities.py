@@ -83,7 +83,6 @@ features_getter_args_map = {
 
 def load_poi_gdf(poi_fpath):
     poi_df = pd.read_csv(poi_fpath)
-    # poi_df = poi_df.sample(frac=1).reset_index(drop=True)
     poi_df['geometry'] = poi_df.apply(
         lambda x: Point(x[config.lon_col], x[config.lat_col]), axis=1)
     poi_gdf = gpd.GeoDataFrame(poi_df, geometry='geometry')
@@ -124,7 +123,6 @@ def load_poly_gdf(poly_fpath):
 def get_bbox_coords(poi_gdf):
     poi_gdf = poi_gdf.to_crs({'init': f'epsg:{config.osm_crs}'})
     min_lon, min_lat, max_lon, max_lat = poi_gdf.geometry.total_bounds
-    print(min_lat, min_lon, max_lat, max_lon)
     return (min_lat, min_lon, max_lat, max_lon)
 
 
