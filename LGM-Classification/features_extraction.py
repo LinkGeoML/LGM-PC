@@ -23,13 +23,14 @@ def main():
 
     # Load poi dataset
     poi_gdf = feat_ut.load_poi_gdf(config.poi_fpath)
+    poi_gdf = poi_gdf.sample(frac=1).reset_index(drop=True)
     poi_gdf, encoder = feat_ut.encode_labels(poi_gdf)
-    poi_gdf.to_csv(results_path + '/train_poi_gdf.csv')
+    poi_gdf.to_csv(results_path + '/train_poi_gdf.csv', index=False)
     pickle.dump(encoder, open(results_path + '/encoder.pkl', 'wb'))
     poi_ids = list(poi_gdf[config.id_col])
     poi_labels = list(poi_gdf['label'])
 
-    feat_ut.get_required_external_files(results_path)
+    feat_ut.get_required_external_files(poi_gdf, results_path)
 
     fold = 1
     skf = StratifiedKFold(n_splits=config.n_folds)

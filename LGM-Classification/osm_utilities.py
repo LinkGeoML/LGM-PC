@@ -4,8 +4,6 @@ import re
 import json
 from shapely.geometry import LineString, Polygon
 
-from config import config
-
 
 def query_osm_data(query, fpath):
     url = f'https://www.overpass-api.de/api/interpreter?data={query}'
@@ -20,7 +18,7 @@ def parse_osm_streets(fpath):
         lats = [p['lat'] for p in row['geometry']]
         return LineString(list(zip(lons, lats)))
 
-    with open(fpath) as f:
+    with open(fpath, encoding='utf-8') as f:
         streets = json.load(f)['elements']
 
     data = [(street['id'], street['geometry']) for street in streets]
@@ -30,12 +28,11 @@ def parse_osm_streets(fpath):
     return street_df
 
 
-def download_osm_streets(exp_path):
-    bb_coords = config.osm_bbox
+def download_osm_streets(bbox_coords, exp_path):
     fpath = exp_path + '/osm_streets.json'
     query = (
         '[out:json]'
-        f'[bbox:{bb_coords[0]},{bb_coords[1]},{bb_coords[2]},{bb_coords[3]}];'
+        f'[bbox:{bbox_coords[0]},{bbox_coords[1]},{bbox_coords[2]},{bbox_coords[3]}];'
         'way["highway"];'
         'out geom;')
     query_osm_data(query, fpath)
@@ -57,7 +54,7 @@ def parse_osm_polys(fpath):
         lats = [p['lat'] for p in row['geometry']]
         return Polygon(list(zip(lons, lats)))
 
-    with open(fpath) as f:
+    with open(fpath, encoding='utf-8') as f:
         polys = json.load(f)['elements']
 
     data = []
@@ -73,12 +70,11 @@ def parse_osm_polys(fpath):
     return poly_df
 
 
-def download_osm_polygons(exp_path):
-    bb_coords = config.osm_bbox
+def download_osm_polygons(bbox_coords, exp_path):
     fpath = exp_path + '/osm_polys.json'
     query = (
         '[out:json]'
-        f'[bbox:{bb_coords[0]},{bb_coords[1]},{bb_coords[2]},{bb_coords[3]}];'
+        f'[bbox:{bbox_coords[0]},{bbox_coords[1]},{bbox_coords[2]},{bbox_coords[3]}];'
         'way(if:is_closed());'
         'out geom;')
     query_osm_data(query, fpath)

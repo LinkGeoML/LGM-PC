@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import itertools
+import time
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC

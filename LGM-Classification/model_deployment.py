@@ -32,8 +32,7 @@ def main():
     os.makedirs(results_path)
 
     t1 = time.time()
-    # TODO Replace line below with: poi_gdf = feat_ut.load_poi_gdf(args['poi_fpath'])
-    poi_gdf = feat_ut.load_poi_gdf(config.poi_fpath)
+    poi_gdf = feat_ut.load_poi_gdf(args['poi_fpath'])
     encoder = pickle.load(open(features_path + '/encoder.pkl', 'rb'))
     poi_gdf, _ = feat_ut.encode_labels(poi_gdf, encoder)
 
@@ -41,10 +40,10 @@ def main():
     features = pd.read_csv(path).values.tolist()
 
     X_test = feat_ut.create_test_features(poi_gdf, features, features_path, model_training_path, results_path)
-
     model = pickle.load(open(model_training_path + '/model.pkl', 'rb'))
 
     k_preds = clf_ut.get_top_k_predictions(model, X_test, config.k_preds)
+
     encoder = pickle.load(open(features_path + '/encoder.pkl', 'rb'))
     k_preds = clf_ut.inverse_transform_labels(encoder, k_preds)
     wrtrs.write_predictions(results_path + '/predictions.csv', poi_gdf, k_preds)

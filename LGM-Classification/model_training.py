@@ -9,7 +9,6 @@ import time
 import features_utilities as feat_ut
 import clf_utilities as clf_ut
 import writers as wrtrs
-from config import config
 
 
 def main():
@@ -45,7 +44,7 @@ def main():
     path = features_path + '/params_per_feature_set.csv'
     best_feature_params = literal_eval(list(pd.read_csv(path, skiprows=nbest_feature_set+1, nrows=1))[1])
 
-    poi_gdf = feat_ut.load_poi_gdf(config.poi_fpath)
+    poi_gdf = feat_ut.load_poi_gdf(features_path + '/train_poi_gdf.csv')
     encoder = pickle.load(open(features_path + '/encoder.pkl', 'rb'))
     poi_gdf, _ = feat_ut.encode_labels(poi_gdf, encoder)
 
