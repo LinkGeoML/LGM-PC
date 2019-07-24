@@ -3,6 +3,7 @@ import os
 import itertools
 import time
 
+from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -20,23 +21,25 @@ clf_callable_map = {
     'Naive Bayes': GaussianNB(),
     'Gaussian Process': GaussianProcessClassifier(),
     'AdaBoost': AdaBoostClassifier(),
-    'SVM': SVC(probability=True),
     'Nearest Neighbors': KNeighborsClassifier(),
+    'Logistic Regression': LogisticRegression(solver='liblinear', multi_class='auto'),
+    'SVM': SVC(probability=True),
+    'MLP': MLPClassifier(),
     'Decision Tree': DecisionTreeClassifier(),
     'Random Forest': RandomForestClassifier(),
-    'Extra Trees': ExtraTreesClassifier(),
-    'MLP': MLPClassifier()}
+    'Extra Trees': ExtraTreesClassifier()}
 
 clf_hyperparams_map = {
     'Naive Bayes': config.NaiveBayes_hyperparameters,
     'Gaussian Process': config.GaussianProcess_hyperparameters,
     'AdaBoost': config.AdaBoost_hyperparameters,
-    'SVM': config.SVM_hyperparameters,
     'Nearest Neighbors': config.kNN_hyperparameters,
+    'Logistic Regression': config.LogisticRegression_hyperparameters,
+    'SVM': config.SVM_hyperparameters,
+    'MLP': config.MLP_hyperparameters,
     'Decision Tree': config.DecisionTree_hyperparameters,
     'Random Forest': config.RandomForest_hyperparameters,
-    'Extra Trees': config.RandomForest_hyperparameters,
-    'MLP': config.MLP_hyperparameters}
+    'Extra Trees': config.RandomForest_hyperparameters}
 
 
 def create_feature_sets_generator(fold_path):
@@ -88,8 +91,10 @@ def create_clf_params_product_generator(params_grid):
         yield dict(zip(keys, instance))
 
 
-def softmax(x):
-    return np.exp(x) / sum(np.exp(x))
+def normalize_scores(scores):
+    s = sum(scores)
+    normalized = [score/s for score in scores]
+    return normalized
 
 
 def get_top_k_predictions(model, X_test, k):
@@ -97,7 +102,7 @@ def get_top_k_predictions(model, X_test, k):
     k_preds = []
     for pred in preds:
         k_labels = np.argsort(-pred)[:k]
-        k_scores = softmax(pred[k_labels])
+        k_scores = normalize_scores(pred[k_labels])
         k_preds.append(zip(k_labels, k_scores))
     return k_preds
 

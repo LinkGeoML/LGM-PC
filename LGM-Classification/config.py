@@ -1,14 +1,14 @@
 class config:
 
-    poi_fpath = '/media/disk/LGM-Classification-mybranch/data/yelp_las_vegas_train.csv'
+    poi_fpath = '/media/disk/LGM-PC-utils/data/marousi_pois.csv'
 
-    experiments_path = '/media/disk/LGM-Classification-mybranch/experiments'
+    experiments_path = '/media/disk/LGM-PC-utils/experiments'
 
     supported_adjacency_features = [
         'classes_in_radius_bln', 'classes_in_radius_cnt',
         'classes_in_street_and_radius_bln', 'classes_in_street_and_radius_cnt',
         'classes_in_neighbors_bln', 'classes_in_neighbors_cnt',
-        'classes_in_street_radius_bln', 'classes_in_street_radius_cnt',
+        # 'classes_in_street_radius_bln', 'classes_in_street_radius_cnt',
     ]
 
     supported_textual_features = [
@@ -16,18 +16,18 @@ class config:
         'top_k_trigrams', 'top_k_fourgrams',
     ]
 
-    supported_geometric_features = [
-        # 'area', 'perimeter', 'n_vertices',
-        # 'mean_edge_length', 'var_edge_length'
-    ]
+    # supported_geometric_features = [
+    #     'area', 'perimeter', 'n_vertices',
+    #     'mean_edge_length', 'var_edge_length'
+    # ]
 
     included_adjacency_features = [
-        'classes_in_radius_bln',
-        # 'classes_in_radius_cnt',
-        'classes_in_street_and_radius_bln',
-        # 'classes_in_street_and_radius_cnt',
-        'classes_in_neighbors_bln',
-        # 'classes_in_neighbors_cnt',
+        # 'classes_in_radius_bln',
+        'classes_in_radius_cnt',
+        # 'classes_in_street_and_radius_bln',
+        'classes_in_street_and_radius_cnt',
+        # 'classes_in_neighbors_bln',
+        'classes_in_neighbors_cnt',
         # 'classes_in_street_radius_bln',
         # 'classes_in_street_radius_cnt',
     ]
@@ -39,20 +39,20 @@ class config:
         'top_k_fourgrams'
     ]
 
-    included_geometric_features = [
-        # 'area',
-        # 'perimeter',
-        # 'n_vertices',
-        # 'mean_edge_length',
-        # 'var_edge_length'
-    ]
+    # included_geometric_features = [
+    #     'area',
+    #     'perimeter',
+    #     'n_vertices',
+    #     'mean_edge_length',
+    #     'var_edge_length'
+    # ]
 
     normalized_features = [
-        'classes_in_radius_cnt',
-        'classes_in_street_and_radius_cnt',
-        'classes_in_neighbors_cnt',
-        'classes_in_street_radius_cnt',
-        'similarity_per_class'
+        # 'classes_in_radius_cnt',
+        # 'classes_in_street_and_radius_cnt',
+        # 'classes_in_neighbors_cnt',
+        # 'classes_in_street_radius_cnt',
+        # 'similarity_per_class'
     ]
 
     classes_in_radius_thr = [200, 500]
@@ -78,9 +78,10 @@ class config:
         'Naive Bayes',
         'Gaussian Process',
         'AdaBoost',
-        'MLP',
-        'SVM',
         'Nearest Neighbors',
+        'Logistic Regression',
+        'SVM',
+        'MLP',
         'Decision Tree',
         'Random Forest',
         'Extra Trees'
@@ -88,14 +89,15 @@ class config:
 
     included_classifiers = [
         'Baseline',
-        'Naive Bayes',
+        # 'Naive Bayes',
         # 'Gaussian Process',
         # 'AdaBoost',
-        # 'MLP',
+        # 'Nearest Neighbors',
+        'Logistic Regression',
         # 'SVM',
-        'Nearest Neighbors',
+        # 'MLP',
         # 'Decision Tree',
-        'Random Forest',
+        # 'Random Forest',
         # 'Extra Trees'
     ]
 
@@ -105,11 +107,21 @@ class config:
 
     AdaBoost_hyperparameters = {}
 
+    kNN_hyperparameters = {'n_neighbors': [3, 5, 10]}
+
+    LogisticRegression_hyperparameters = {
+        'max_iter': [100, 500],
+        'C': [0.1, 1, 10]}
+
     SVM_hyperparameters = [
         {'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [0.01, 0.1, 1, 10, 100]},
         {'kernel': ['poly'], 'degree': [1, 2, 3], 'C': [0.01, 0.1, 1, 10, 100]},
     ]
-    kNN_hyperparameters = {'n_neighbors': [3, 5, 10]}
+
+    MLP_hyperparameters = {
+        'hidden_layer_sizes': [(100, ), (50, 50, )],
+        'learning_rate_init': [0.0001, 0.01, 0.1],
+        'max_iter': [100, 200, 500]}
 
     DecisionTree_hyperparameters = {
         'max_depth': [1, 4, 16],
@@ -119,26 +131,21 @@ class config:
         'max_depth': [10, 100, None],
         'n_estimators': [250, 1000]}
 
-    MLP_hyperparameters = {
-        'hidden_layer_sizes': [(100, ), (50, 50, )],
-        'learning_rate_init': [0.0001, 0.01, 0.1],
-        'max_iter': [100, 200, 500]}
-
     k_preds = 5
     osm_crs = 4326
 
-    # # Marousi
-    # id_col = 'poi_id'
-    # name_col = 'name'
-    # label_col = 'class_name'
-    # lon_col = 'x'
-    # lat_col = 'y'
-    # poi_crs = 2100
-
-    # yelp Las Vegas
-    id_col = 'business_id'
+    # Marousi
+    id_col = 'poi_id'
     name_col = 'name'
-    label_col = 'category'
-    lon_col = 'longitude'
-    lat_col = 'latitude'
-    poi_crs = 4326
+    label_col = 'class_name'
+    lon_col = 'x'
+    lat_col = 'y'
+    poi_crs = 2100
+
+    # # yelp Las Vegas
+    # id_col = 'business_id'
+    # name_col = 'name'
+    # label_col = 'category'
+    # lon_col = 'longitude'
+    # lat_col = 'latitude'
+    # poi_crs = 4326

@@ -20,25 +20,26 @@ def write_feature_params_info(fpath, params_names, params_vals):
     return
 
 
-def write_feature_space(fpath, best_params=None):
+def write_feature_space(fpath, features_info=None, best_params=None):
     with open(fpath, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(['Feature', 'Parameter', 'Parameter values', 'Normalized'])
-        for feat in config.included_adjacency_features:
-            param_name = feat_ut.features_params_map[feat]
-            if best_params is None:
-                writer.writerow([feat, param_name, getattr(config, param_name), True if feat in config.normalized_features else False])
-            else:
-                writer.writerow([feat, param_name, best_params[param_name], True if feat in config.normalized_features else False])
-        for feat in config.included_textual_features:
-            if feat not in feat_ut.features_params_map:
-                writer.writerow([feat, '-', '-', True if feat in config.normalized_features else False])
-            else:
-                param_name = feat_ut.features_params_map[feat]
-                if best_params is None:
-                    writer.writerow([feat, param_name, getattr(config, param_name), True if feat in config.normalized_features else False])
+        if features_info is None:
+            included_features = config.included_adjacency_features + config.included_textual_features
+            for feat in included_features:
+                if feat not in feat_ut.features_params_map:
+                    writer.writerow([feat, '-', '-', True if feat in config.normalized_features else False])
                 else:
-                    writer.writerow([feat, param_name, best_params[param_name], True if feat in config.normalized_features else False])
+                    param_name = feat_ut.features_params_map[feat]
+                    writer.writerow([feat, param_name, getattr(config, param_name), True if feat in config.normalized_features else False])
+        else:
+            for f in features_info:
+                feat, norm = f[0], f[1]
+                if feat not in feat_ut.features_params_map:
+                    writer.writerow([feat, '-', '-', norm])
+                else:
+                    param_name = feat_ut.features_params_map[feat]
+                    writer.writerow([feat, param_name, best_params[param_name], norm])
     return
 
 

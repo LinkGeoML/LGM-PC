@@ -49,8 +49,9 @@ def main():
     poi_gdf, _ = feat_ut.encode_labels(poi_gdf, encoder)
 
     path = features_path + '/feature_space.csv'
-    features = pd.read_csv(path, usecols=['Feature', 'Normalized']).values.tolist()
-    X_train = feat_ut.create_finetuned_features(poi_gdf, features, best_feature_params, features_path, results_path)
+    features_info = pd.read_csv(path)[['Feature', 'Normalized']].values.tolist()
+
+    X_train = feat_ut.create_finetuned_features(poi_gdf, features_info, best_feature_params, features_path, results_path)
     y_train = list(poi_gdf['label'])
 
     model = clf_ut.clf_callable_map[clf_name].set_params(**best_clf_params)
@@ -59,7 +60,7 @@ def main():
     pickle.dump(model, open(results_path + '/model.pkl', 'wb'))
 
     print(f'Model training done in {time.time() - t1} sec.')
-    wrtrs.write_feature_space(results_path + '/features_config.csv', best_feature_params)
+    wrtrs.write_feature_space(results_path + '/features_config.csv', features_info, best_feature_params)
     wrtrs.write_classifier_space(results_path + '/classifier_config.csv', clf_name, best_clf_params)
     return
 

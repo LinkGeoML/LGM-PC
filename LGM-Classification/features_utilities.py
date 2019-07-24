@@ -134,8 +134,8 @@ def get_required_external_files(poi_gdf, feature_sets_path):
         'classes_in_street_radius_cnt' in config.included_adjacency_features
        ):
         osm_ut.download_osm_streets(get_bbox_coords(poi_gdf), feature_sets_path)
-    if config.included_geometric_features:
-        osm_ut.download_osm_polygons(get_bbox_coords(poi_gdf), feature_sets_path)
+    # if config.included_geometric_features:
+    #     osm_ut.download_osm_polygons(get_bbox_coords(poi_gdf), feature_sets_path)
     return
 
 
@@ -262,13 +262,13 @@ def create_concatenated_features(poi_gdf, train_idxs, test_idxs, fold_path):
     return
 
 
-def create_finetuned_features(poi_gdf, features, best_feature_params, features_path, results_path):
-    included_features = [f[0] for f in features]
+def create_finetuned_features(poi_gdf, features_info, best_feature_params, features_path, results_path):
+    included_features = [f[0] for f in features_info]
     required_args = set([arg for f in included_features for arg in features_getter_args_map[f]])
     args = create_args_dict(poi_gdf, np.arange(len(poi_gdf)), required_args, features_path, results_path + '/pickled_objects')
 
     Xs = []
-    for f in features:
+    for f in features_info:
         feat, norm = f[0], f[1]
         if feat in features_params_map:
             args['param'] = best_feature_params[features_params_map[feat]]
