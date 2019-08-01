@@ -101,10 +101,14 @@ def write_finetuning_results(results_path, results_dict):
 def write_predictions(fpath, poi_gdf, k_preds):
     with open(fpath, 'w', encoding='utf-8') as file:
         writer = csv.writer(file)
-        writer.writerow([config.id_col, f'top_{config.k_preds}_predictions'])
+        writer.writerow([
+            config.id_col,
+            config.name_col,
+            f'top_{config.k_preds}_predictions'])
         for poi in poi_gdf.itertuples():
             writer.writerow([
                 getattr(poi, config.id_col),
+                getattr(poi, config.name_col),
                 [
                     k_pred
                     for k_pred in k_preds[poi.Index *

@@ -1,13 +1,15 @@
 import pandas as pd
-import os
 import re
 import json
+import requests
 from shapely.geometry import LineString, Polygon
 
 
 def query_osm_data(query, fpath):
-    url = f'https://www.overpass-api.de/api/interpreter?data={query}'
-    os.system(f'wget -O {fpath} "{url}"')
+    overpass_url = 'http://overpass-api.de/api/interpreter'
+    response = requests.get(overpass_url, params={'data':query}).json()
+    with open(fpath, 'w') as f:
+        json.dump(response, f)
     return
 
 

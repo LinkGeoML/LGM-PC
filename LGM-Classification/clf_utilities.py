@@ -1,7 +1,6 @@
 import numpy as np
 import os
 import itertools
-import time
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -97,11 +96,11 @@ def normalize_scores(scores):
     return normalized
 
 
-def get_top_k_predictions(model, X_test, k):
+def get_top_k_predictions(model, X_test):
     preds = model.predict_proba(X_test)
     k_preds = []
     for pred in preds:
-        k_labels = np.argsort(-pred)[:k]
+        k_labels = np.argsort(-pred)[:config.k_preds]
         k_scores = normalize_scores(pred[k_labels])
         k_preds.append(zip(k_labels, k_scores))
     return k_preds

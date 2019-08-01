@@ -59,7 +59,7 @@ def main():
 
     pickle.dump(model, open(results_path + '/model.pkl', 'wb'))
 
-    print(f'Model training done in {time.time() - t1} sec.')
+    print(f'Model training done in {time.time() - t1:.3f} sec.')
     wrtrs.write_feature_space(results_path + '/features_config.csv', features_info, best_feature_params)
     wrtrs.write_classifier_space(results_path + '/classifier_config.csv', clf_name, best_clf_params)
     return

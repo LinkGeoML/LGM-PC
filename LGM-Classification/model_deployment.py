@@ -8,7 +8,6 @@ import time
 import features_utilities as feat_ut
 import clf_utilities as clf_ut
 import writers as wrtrs
-from config import config
 
 
 def main():
@@ -42,13 +41,13 @@ def main():
     X_test = feat_ut.create_test_features(poi_gdf, features, features_path, model_training_path, results_path)
     model = pickle.load(open(model_training_path + '/model.pkl', 'rb'))
 
-    k_preds = clf_ut.get_top_k_predictions(model, X_test, config.k_preds)
+    k_preds = clf_ut.get_top_k_predictions(model, X_test)
 
     encoder = pickle.load(open(features_path + '/encoder.pkl', 'rb'))
     k_preds = clf_ut.inverse_transform_labels(encoder, k_preds)
     wrtrs.write_predictions(results_path + '/predictions.csv', poi_gdf, k_preds)
 
-    print(f'Classifier predictions done in {time.time() - t1} sec.')
+    print(f'Classifier predictions done in {time.time() - t1:.3f} sec.')
     return
 
 

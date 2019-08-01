@@ -37,7 +37,7 @@ def main():
                 scores = clf_ut.evaluate(y_test, y_pred)
                 results.append(dict(info, **scores))
 
-    print(f'Algorithm selection done in {time.time() - t1} sec.')
+    print(f'Algorithm selection done in {time.time() - t1:.3f} sec.')
     results_path = args['experiment_path'] + 'algorithm_selection_results'
     if os.path.exists(results_path):
         shutil.rmtree(results_path)

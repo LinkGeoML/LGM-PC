@@ -45,7 +45,7 @@ def main():
         feat_ut.create_concatenated_features(poi_gdf, train_idxs, test_idxs, fold_path)
 
         fold += 1
-    print(f'Feature extraction done in {time.time() - t1} sec.')
+    print(f'Feature extraction done in {time.time() - t1:.3f} sec.')
     return
 
 
