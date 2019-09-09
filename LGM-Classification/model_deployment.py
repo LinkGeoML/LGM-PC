@@ -47,7 +47,7 @@ def main():
     k_preds = clf_ut.inverse_transform_labels(encoder, k_preds)
     wrtrs.write_predictions(results_path + '/predictions.csv', poi_gdf, k_preds)
 
-    print(f'Classifier predictions done in {time.time() - t1:.3f} sec.')
+    print(f'Model deployment done in {time.time() - t1:.3f} sec.')
     return
 
 

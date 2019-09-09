@@ -98,6 +98,7 @@ def encode_labels(poi_gdf, encoder=None):
         encoder = LabelEncoder()
         poi_gdf['label'] = encoder.fit_transform(poi_gdf[config.label_col])
     else:
+        poi_gdf = poi_gdf[poi_gdf[config.label_col].isin(encoder.classes_)].reset_index(drop=True)
         poi_gdf['label'] = encoder.transform(poi_gdf[config.label_col])
     return poi_gdf, encoder
 

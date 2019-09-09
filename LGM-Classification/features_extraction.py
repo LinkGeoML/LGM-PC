@@ -21,9 +21,13 @@ def main():
     os.makedirs(results_path)
     wrtrs.write_feature_space(results_path + '/feature_space.csv')
 
-    # Load poi dataset
+    # Load pois
     poi_gdf = feat_ut.load_poi_gdf(config.poi_fpath)
+    # Shuffle
     poi_gdf = poi_gdf.sample(frac=1).reset_index(drop=True)
+    # Remove barely populated labels
+    # poi_gdf = poi_gdf.groupby(config.label_col).filter(lambda x: len(x) >= config.n_folds).reset_index(drop=True)
+
     poi_gdf, encoder = feat_ut.encode_labels(poi_gdf)
     poi_gdf.to_csv(results_path + '/train_poi_gdf.csv', index=False)
     pickle.dump(encoder, open(results_path + '/encoder.pkl', 'wb'))

@@ -1,6 +1,6 @@
 class config:
 
-    poi_fpath = '/media/disk/LGM-PC-utils/data/marousi_pois.csv'
+    poi_fpath = '/media/disk/LGM-PC-utils/data/toronto/yelp_toronto_train.csv'
 
     experiments_path = '/media/disk/LGM-PC-utils/experiments'
 
@@ -89,16 +89,16 @@ class config:
 
     included_classifiers = [
         'Baseline',
-        # 'Naive Bayes',
+        'Naive Bayes',
         # 'Gaussian Process',
         # 'AdaBoost',
-        # 'Nearest Neighbors',
+        'Nearest Neighbors',
         'Logistic Regression',
-        # 'SVM',
-        # 'MLP',
-        # 'Decision Tree',
-        # 'Random Forest',
-        # 'Extra Trees'
+        'SVM',
+        'MLP',
+        'Decision Tree',
+        'Random Forest',
+        'Extra Trees'
     ]
 
     NaiveBayes_hyperparameters = {}
@@ -131,21 +131,22 @@ class config:
         'max_depth': [10, 100, None],
         'n_estimators': [250, 1000]}
 
+    top_k = [1, 5, 10]
     k_preds = 5
     osm_crs = 4326
 
-    # Marousi
-    id_col = 'poi_id'
-    name_col = 'name'
-    label_col = 'class_name'
-    lon_col = 'x'
-    lat_col = 'y'
-    poi_crs = 2100
-
-    # # yelp Las Vegas
-    # id_col = 'business_id'
+    # # Marousi
+    # id_col = 'poi_id'
     # name_col = 'name'
-    # label_col = 'category'
-    # lon_col = 'longitude'
-    # lat_col = 'latitude'
-    # poi_crs = 4326
+    # label_col = 'class_name'
+    # lon_col = 'x'
+    # lat_col = 'y'
+    # poi_crs = 2100
+
+    # Yelp
+    id_col = 'business_id'
+    name_col = 'name'
+    label_col = 'category'
+    lon_col = 'longitude'
+    lat_col = 'latitude'
+    poi_crs = 4326

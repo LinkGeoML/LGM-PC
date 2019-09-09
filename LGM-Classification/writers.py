@@ -70,7 +70,8 @@ def write_evaluation_results(results_path, results_dict):
     all_results_df = pd.DataFrame(results_dict)
     all_results_df.to_csv(
         results_path + '/all_results.csv',
-        columns=['fold', 'feature_set', 'classifier', 'accuracy',
+        columns=['fold', 'feature_set', 'classifier',
+                 'top_1_accuracy', 'top_5_accuracy', 'top_10_accuracy',
                  'f1_macro', 'f1_micro', 'f1_weighted',
                  'precision_weighted', 'recall_weighted'],
         index=False)
@@ -87,7 +88,8 @@ def write_finetuning_results(results_path, results_dict):
     all_results_df = pd.DataFrame(results_dict)
     all_results_df.to_csv(
         results_path + '/all_results.csv',
-        columns=['fold', 'feature_set', 'clf_params', 'accuracy',
+        columns=['fold', 'feature_set', 'clf_params',
+                 'top_1_accuracy', 'top_5_accuracy', 'top_10_accuracy',
                  'f1_macro', 'f1_micro', 'f1_weighted',
                  'precision_weighted', 'recall_weighted'],
         index=False)

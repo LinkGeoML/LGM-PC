@@ -36,7 +36,9 @@ def main():
                     X_test = np.load(fold_path + f'/{feature_set[1]}')
                     clf = clf_ut.clf_callable_map[args['classifier']].set_params(**params)
                     clf.fit(X_train, y_train)
-                    y_pred = clf.predict(X_test)
+                    # y_pred = clf.predict(X_test)
+                    pred = clf.predict_proba(X_test)
+                    y_pred = np.argsort(-pred, axis=1)[:, :]
                     info = {'fold': i, 'feature_set': feature_set[1], 'clf_params': str(params)}
                     scores = clf_ut.evaluate(y_test, y_pred)
                     results.append(dict(info, **scores))

@@ -61,15 +61,26 @@ def train_classifier(clf_name, X_train, y_train):
     return clf
 
 
+def k_accuracy_score(y_test, k_best):
+    c = 0
+    for i, y in enumerate(y_test):
+        if y in k_best[i]:
+            c += 1
+    return c / (i + 1)
+
+
 def evaluate(y_test, y_pred):
-    scores = {
-        'accuracy': accuracy_score(y_test, y_pred),
-        'f1_macro': f1_score(y_test, y_pred, average='macro'),
-        'f1_micro': f1_score(y_test, y_pred, average='micro'),
-        'f1_weighted': f1_score(y_test, y_pred, average='weighted'),
-        'precision_weighted': precision_score(y_test, y_pred, average='weighted'),
-        'recall_weighted': recall_score(y_test, y_pred, average='weighted')
-    }
+    scores = {}
+    for k in config.top_k:
+        k_best = y_pred[:, :k]
+        scores[f'top_{k}_accuracy'] = k_accuracy_score(y_test, k_best)
+
+    y_pred = y_pred[:, :1]
+    scores['f1_macro'] = f1_score(y_test, y_pred, average='macro')
+    scores['f1_micro'] = f1_score(y_test, y_pred, average='micro')
+    scores['f1_weighted'] = f1_score(y_test, y_pred, average='weighted')
+    scores['precision_weighted'] = precision_score(y_test, y_pred, average='weighted')
+    scores['recall_weighted'] = recall_score(y_test, y_pred, average='weighted')
     return scores
 
 
