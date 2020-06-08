@@ -39,21 +39,27 @@ Run Model Selection through the Run Model Selection Button.
 
 Start the training of the algorithm through the Run Model Training button.
 
+
 ### The Model Running section consists of the following steps:
 
 * Step 1:
+
 Define the dataset tha is going to be classified through the File to classifiy button.
 
 * Step 2:
+
 Start the procedure of the classification by pressing the Run Classification button.
 
 * Step 3:
+
 Present the results to the CLassification Results Table (section down below) by pressing Show Recommendation Results button.
 
 * Step 4:
+
 The button Auto automatically checks the appropriate checkbox that shows the maximum result for each category. To store these results the user should press the Update button.
 
 * Step 5:
+
 The choices that the user has made by selecting manually the appropriate results or by pressing the auto button and then stored them accordingly through update button, are depicted in a pop up table through the User Choices button.
 
 
