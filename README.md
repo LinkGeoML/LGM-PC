@@ -4,49 +4,56 @@ LGM-PC is a QGIS plugin for automatic POI classification.
 ## About LGM-PC
 LGM-PC is based on the LGM-Classification code.
 
+## The plugin consists of two sections:
+* Training Section
+* Model Running section
+
 ## Description
-The module consists of the following steps:
+### The Training Section consists of the following steps:
 
-1. **Features extraction**
+* Step 1:
 
-   This step takes into account the features hyperparameters given in [config.py](./LGM-Classification/config.py) and creates a collection of X_train and X_test feature pairs grouped by folds and ready to be utilized by machine learning algorithms in the next steps.
-2. **Algorithm selection**
+The user defines the dataset that is going to be used during the training procedure through the Train Data button.
 
-   A list of given classifiers given in [config.py](./LGM-Classification/config.py) are evaluated in a nested cross-validation scheme in order to find which performs the best on the features sets created in the previous step.
-3. **Model selection**
+* Step 2:
 
-   Given a selected classifier, this step tries to find the best configuration both in terms of the classifier's and feature set hyperparameters.
-4. **Model training**
+The user executes the features extraction when pressing the Run Features Extraction button
 
-   Utilizing the knowledge from the previous step, a model is trained on the whole available pois using the optimal configuration. This model is then saved to disk for later usage.
-5. **Model deployment**
+* Step 3:
 
-   This step loads the optimal model from disk and uses it in order to classify a set of unseen, unlabeled, test pois. Classification results come in a form of a top k predictions list for each of the pois along with a score (suggesting the model's confidence about each prediction).
+Define the sub-folder that was created from the previous step in the experiments folder through the Experiments Path button.
 
-## Usage
-The execution of the project starts with the **Features extraction** step initializing the pipeline's root folder which the following steps will refer to in order to output their results. Each step can be executed as follows:
+* Step 4:
 
-1. **Features extraction**
+Execute Algorithm Selection step through the Run Algorithm Selection button.
 
-   ```python features_extraction.py```
-2. **Algorithm selection**
+* Step 5:
 
-   ```python algorithm_selection.py -experiment_path <exp_path>```
-   
-   where ```<exp_path>``` is the path to the folder created from the first step.
-3. **Model selection**
+Define the desired classifier that is going to be used through the execution of the training section.
 
-   ```python model_selection.py -classifier <clf_name> -experiment_path <exp_path>```
-   
-   where ```<clf_name>``` is the classifier's name to be optimized in order to build the model and ```<exp_path>``` same as before.
-4. **Model training**
+* Step 6:
 
-   ```python model_training.py -experiment_path <exp_path>```
-   
-   where ```<exp_path>``` same as before.
-5. **Model deployment**
+Run Model Selection through the Run Model Selection Button.
 
-   ```python model_deployment.py -experiment_path <exp_path> -poi_fpath <poi_fpath>```
-   
-   where ```<exp_path>``` same as before and ```<poi_fpath>``` is the path to the file containing the test pois.
+* Step 7:
+
+Start the training of the algorithm through the Run Model Training button.
+
+### The Model Running section consists of the following steps:
+
+* Step 1:
+Define the dataset tha is going to be classified through the File to classifiy button.
+
+* Step 2:
+Start the procedure of the classification by pressing the Run Classification button.
+
+* Step 3:
+Present the results to the CLassification Results Table (section down below) by pressing Show Recommendation Results button.
+
+* Step 4:
+The button Auto automatically checks the appropriate checkbox that shows the maximum result for each category. To store these results the user should press the Update button.
+
+* Step 5:
+The choices that the user has made by selecting manually the appropriate results or by pressing the auto button and then stored them accordingly through update button, are depicted in a pop up table through the User Choices button.
+
 
